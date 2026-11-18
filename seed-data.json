@@ -1,0 +1,671 @@
+{
+ "categories": [
+  {
+   "slug": "monos",
+   "name": "Monos",
+   "blurb": "Piezas de una sola prenda, listas para entrenar o salir."
+  },
+  {
+   "slug": "tops",
+   "name": "Tops & Camisetas",
+   "blurb": "Sujeción y libertad de movimiento en cada sesión."
+  },
+  {
+   "slug": "pantalones",
+   "name": "Mallas & Pantalones",
+   "blurb": "Cintura en V y pantalón ancho con bolsillos."
+  },
+  {
+   "slug": "abrigo",
+   "name": "Chaquetas & Sudaderas",
+   "blurb": "Capas técnicas para antes y después de entrenar."
+  },
+  {
+   "slug": "accesorios",
+   "name": "Accesorios",
+   "blurb": "Los detalles que completan tu equipo."
+  }
+ ],
+ "products": [
+  {
+   "id": "mono-negro-tirantes",
+   "category": "monos",
+   "name": "Mono de tirantes negro",
+   "material": "Lycra / Nylon · pierna larga",
+   "price": 40,
+   "note": "",
+   "sizes": [
+    {
+     "size": "S",
+     "stock": 5
+    },
+    {
+     "size": "M",
+     "stock": 3
+    },
+    {
+     "size": "L",
+     "stock": 2
+    }
+   ],
+   "images": [
+    "images/zaiay_4710.jpg",
+    "images/zaiay_4708.jpg",
+    "images/zaiay_4677.jpg",
+    "images/zaiay_4679.jpg",
+    "images/zaiay_4683.jpg",
+    "images/zaiay_4706.jpg",
+    "images/f_mono_negro_tirantes.jpg"
+   ]
+  },
+  {
+   "id": "mono-morado-tirantes",
+   "category": "monos",
+   "name": "Mono de tirantes morado",
+   "material": "Lycra / Nylon · pierna larga",
+   "price": 40,
+   "note": "Pocas unidades",
+   "sizes": [
+    {
+     "size": "S",
+     "stock": 5
+    },
+    {
+     "size": "M",
+     "stock": 0
+    },
+    {
+     "size": "L",
+     "stock": 0
+    }
+   ],
+   "images": [
+    "images/zaiay_4686.jpg",
+    "images/zaiay_4684.jpg",
+    "images/zaiay_4687.jpg",
+    "images/zaiay_4697.jpg",
+    "images/zaiay_4693.jpg",
+    "images/zaiay_4703.jpg",
+    "images/f_mono_azul_tirantes.jpg"
+   ]
+  },
+  {
+   "id": "mono-manga-larga-azul",
+   "category": "monos",
+   "name": "Mono manga larga azul",
+   "material": "Lycra / Nylon",
+   "price": 45,
+   "note": "",
+   "sizes": [
+    {
+     "size": "S",
+     "stock": 5
+    },
+    {
+     "size": "M",
+     "stock": 3
+    },
+    {
+     "size": "L",
+     "stock": 2
+    }
+   ],
+   "images": [
+    "images/zaiay_4630.jpg",
+    "images/zaiay_4626.jpg",
+    "images/zaiay_4633.jpg",
+    "images/zaiay_4636.jpg",
+    "images/zaiay_4632.jpg",
+    "images/zaiay_4640.jpg"
+   ]
+  },
+  {
+   "id": "mono-manga-larga-marron",
+   "category": "monos",
+   "name": "Mono manga larga marrón",
+   "material": "Lycra / Nylon",
+   "price": 45,
+   "note": "",
+   "sizes": [
+    {
+     "size": "S",
+     "stock": 5
+    },
+    {
+     "size": "M",
+     "stock": 3
+    },
+    {
+     "size": "L",
+     "stock": 2
+    }
+   ],
+   "images": [
+    "images/zaiay_4643.jpg",
+    "images/zaiay_4665.jpg",
+    "images/zaiay_4644.jpg",
+    "images/zaiay_4649.jpg",
+    "images/zaiay_4657.jpg",
+    "images/zaiay_4669.jpg"
+   ]
+  },
+  {
+   "id": "top-gris-blanco",
+   "category": "tops",
+   "name": "Top bicolor gris oscuro / blanco",
+   "material": "Poliéster / Spandex",
+   "price": 15,
+   "note": "",
+   "sizes": [
+    {
+     "size": "S",
+     "stock": 5
+    },
+    {
+     "size": "M",
+     "stock": 3
+    },
+    {
+     "size": "L",
+     "stock": 2
+    }
+   ],
+   "images": [
+    "images/zaiay_4741.jpg",
+    "images/zaiay_4753.jpg",
+    "images/zaiay_4754.jpg",
+    "images/zaiay_4739.jpg",
+    "images/zaiay_4751.jpg",
+    "images/f_top_gris.jpg"
+   ]
+  },
+  {
+   "id": "top-rosa-blanco",
+   "category": "tops",
+   "name": "Top bicolor rosa / blanco",
+   "material": "Poliéster / Spandex",
+   "price": 15,
+   "note": "",
+   "sizes": [
+    {
+     "size": "S",
+     "stock": 5
+    },
+    {
+     "size": "M",
+     "stock": 3
+    },
+    {
+     "size": "L",
+     "stock": 2
+    }
+   ],
+   "images": [
+    "images/zaiay_4713.jpg",
+    "images/zaiay_4715.jpg",
+    "images/zaiay_4712.jpg",
+    "images/zaiay_4714.jpg",
+    "images/f_top_rosa_blanco.jpg"
+   ]
+  },
+  {
+   "id": "top-rosa",
+   "category": "tops",
+   "name": "Top cruzado rosa",
+   "material": "Lycra / Nylon",
+   "price": 15,
+   "note": "",
+   "sizes": [
+    {
+     "size": "S",
+     "stock": 4
+    },
+    {
+     "size": "M",
+     "stock": 3
+    },
+    {
+     "size": "L",
+     "stock": 2
+    }
+   ],
+   "images": [
+    "images/zaiay_4791.jpg",
+    "images/zaiay_4789.jpg",
+    "images/zaiay_4797.jpg",
+    "images/zaiay_4794.jpg",
+    "images/zaiay_4796.jpg",
+    "images/zaiay_4801.jpg",
+    "images/f_top_rosa_halter.jpg"
+   ]
+  },
+  {
+   "id": "top-beige",
+   "category": "tops",
+   "name": "Top cruzado beige",
+   "material": "Lycra / Nylon",
+   "price": 15,
+   "note": "",
+   "sizes": [
+    {
+     "size": "S",
+     "stock": 5
+    },
+    {
+     "size": "M",
+     "stock": 2
+    },
+    {
+     "size": "L",
+     "stock": 2
+    }
+   ],
+   "images": [
+    "images/zaiay_4772.jpg",
+    "images/zaiay_4762.jpg",
+    "images/zaiay_4774.jpg",
+    "images/zaiay_4773.jpg",
+    "images/f_top_beige.jpg"
+   ]
+  },
+  {
+   "id": "camiseta-beige",
+   "category": "tops",
+   "name": "Camiseta beige",
+   "material": "Lycra / Nylon",
+   "price": 15,
+   "note": "",
+   "sizes": [
+    {
+     "size": "S",
+     "stock": 5
+    },
+    {
+     "size": "M",
+     "stock": 3
+    },
+    {
+     "size": "L",
+     "stock": 1
+    }
+   ],
+   "images": [
+    "images/zaiay_4820.jpg",
+    "images/zaiay_4818.jpg",
+    "images/zaiay_4827.jpg",
+    "images/zaiay_4823.jpg",
+    "images/zaiay_4851.jpg",
+    "images/f_camiseta_beige.jpg"
+   ]
+  },
+  {
+   "id": "camiseta-rosa",
+   "category": "tops",
+   "name": "Camiseta rosa",
+   "material": "Lycra / Nylon",
+   "price": 15,
+   "note": "",
+   "sizes": [
+    {
+     "size": "S",
+     "stock": 5
+    },
+    {
+     "size": "M",
+     "stock": 3
+    },
+    {
+     "size": "L",
+     "stock": 2
+    }
+   ],
+   "images": [
+    "images/zaiay_4839.jpg",
+    "images/zaiay_4837.jpg",
+    "images/zaiay_4836.jpg",
+    "images/zaiay_4838.jpg",
+    "images/zaiay_4844.jpg",
+    "images/f_camiseta_rosa2.jpg"
+   ]
+  },
+  {
+   "id": "pantalon-gris-blanco",
+   "category": "pantalones",
+   "name": "Pantalón ancho con bolsillos, gris oscuro / blanco",
+   "material": "Poliéster / Spandex",
+   "price": 35,
+   "note": "",
+   "sizes": [
+    {
+     "size": "S",
+     "stock": 5
+    },
+    {
+     "size": "M",
+     "stock": 3
+    },
+    {
+     "size": "L",
+     "stock": 2
+    }
+   ],
+   "images": [
+    "images/zaiay_4731.jpg",
+    "images/zaiay_4742.jpg",
+    "images/zaiay_4740.jpg",
+    "images/zaiay_4747.jpg",
+    "images/zaiay_4738.jpg"
+   ]
+  },
+  {
+   "id": "pantalon-rosa-blanco",
+   "category": "pantalones",
+   "name": "Pantalón ancho con bolsillos, rosa / blanco",
+   "material": "Poliéster / Spandex",
+   "price": 35,
+   "note": "",
+   "sizes": [
+    {
+     "size": "S",
+     "stock": 5
+    },
+    {
+     "size": "M",
+     "stock": 3
+    },
+    {
+     "size": "L",
+     "stock": 2
+    }
+   ],
+   "images": [
+    "images/zaiay_4716.jpg",
+    "images/zaiay_4721.jpg",
+    "images/zaiay_4717.jpg",
+    "images/zaiay_4718.jpg",
+    "images/zaiay_4722.jpg",
+    "images/f_pantalon_rosa.jpg"
+   ]
+  },
+  {
+   "id": "mallas-beige",
+   "category": "pantalones",
+   "name": "Mallas cintura en V beige",
+   "material": "Lycra / Nylon",
+   "price": 35,
+   "note": "",
+   "sizes": [
+    {
+     "size": "S",
+     "stock": 5
+    },
+    {
+     "size": "M",
+     "stock": 2
+    },
+    {
+     "size": "L",
+     "stock": 1
+    }
+   ],
+   "images": [
+    "images/zaiay_4761.jpg",
+    "images/zaiay_4768.jpg",
+    "images/zaiay_4771.jpg",
+    "images/zaiay_4829.jpg",
+    "images/zaiay_4760.jpg",
+    "images/f_mallas_beige.jpg"
+   ]
+  },
+  {
+   "id": "mallas-rosa",
+   "category": "pantalones",
+   "name": "Mallas cintura en V rosa",
+   "material": "Lycra / Nylon",
+   "price": 35,
+   "note": "",
+   "sizes": [
+    {
+     "size": "S",
+     "stock": 5
+    },
+    {
+     "size": "M",
+     "stock": 3
+    },
+    {
+     "size": "L",
+     "stock": 2
+    }
+   ],
+   "images": [
+    "images/zaiay_4787.jpg",
+    "images/zaiay_4792.jpg",
+    "images/zaiay_4798.jpg",
+    "images/zaiay_4800.jpg",
+    "images/zaiay_4793.jpg",
+    "images/f_mallas_rosa.jpg"
+   ]
+  },
+  {
+   "id": "chaqueta-beige",
+   "category": "abrigo",
+   "name": "Chaqueta beige",
+   "material": "Lycra / Nylon",
+   "price": 35,
+   "note": "",
+   "sizes": [
+    {
+     "size": "S",
+     "stock": 5
+    },
+    {
+     "size": "M",
+     "stock": 3
+    },
+    {
+     "size": "L",
+     "stock": 2
+    }
+   ],
+   "images": [
+    "images/zaiay_4757.jpg",
+    "images/zaiay_4755.jpg",
+    "images/zaiay_4766.jpg",
+    "images/zaiay_4767.jpg",
+    "images/zaiay_4769.jpg",
+    "images/zaiay_4759.jpg",
+    "images/f_chaqueta_beige.jpg"
+   ]
+  },
+  {
+   "id": "chaqueta-rosa",
+   "category": "abrigo",
+   "name": "Chaqueta rosa",
+   "material": "Lycra / Nylon",
+   "price": 35,
+   "note": "",
+   "sizes": [
+    {
+     "size": "S",
+     "stock": 5
+    },
+    {
+     "size": "M",
+     "stock": 3
+    },
+    {
+     "size": "L",
+     "stock": 2
+    }
+   ],
+   "images": [
+    "images/zaiay_4813.jpg",
+    "images/zaiay_4812.jpg",
+    "images/zaiay_4810.jpg",
+    "images/zaiay_4814.jpg",
+    "images/zaiay_4817.jpg",
+    "images/zaiay_4815.jpg",
+    "images/f_chaqueta_rosa2.jpg"
+   ]
+  },
+  {
+   "id": "sudadera-gris",
+   "category": "abrigo",
+   "name": "Sudadera blanca, logo gris oscuro",
+   "material": "Algodón / Poliéster",
+   "price": 40,
+   "note": "",
+   "sizes": [
+    {
+     "size": "S",
+     "stock": 5
+    },
+    {
+     "size": "M",
+     "stock": 3
+    },
+    {
+     "size": "L",
+     "stock": 2
+    }
+   ],
+   "images": [
+    "images/zaiay_4732.jpg",
+    "images/zaiay_4733.jpg",
+    "images/zaiay_4735.jpg",
+    "images/zaiay_4737.jpg",
+    "images/zaiay_4734.jpg",
+    "images/zaiay_4730.jpg"
+   ]
+  },
+  {
+   "id": "sudadera-rosa",
+   "category": "abrigo",
+   "name": "Sudadera blanca, logo rosa",
+   "material": "Algodón / Poliéster",
+   "price": 40,
+   "note": "",
+   "sizes": [
+    {
+     "size": "S",
+     "stock": 5
+    },
+    {
+     "size": "M",
+     "stock": 3
+    },
+    {
+     "size": "L",
+     "stock": 2
+    }
+   ],
+   "images": [
+    "images/zaiay_4724.jpg",
+    "images/zaiay_4723.jpg",
+    "images/zaiay_4725.jpg",
+    "images/zaiay_4720.jpg"
+   ]
+  },
+  {
+   "id": "toalla-azul",
+   "category": "accesorios",
+   "name": "Toalla azul",
+   "material": "100% Algodón",
+   "price": 15,
+   "note": "",
+   "sizes": [
+    {
+     "size": "Única",
+     "stock": 43
+    }
+   ],
+   "images": [
+    "images/zaiay_4860.jpg",
+    "images/zaiay_4859.jpg",
+    "images/zaiay_4864.jpg",
+    "images/zaiay_4861.jpg",
+    "images/zaiay_4865.jpg",
+    "images/f_toalla_azul.jpg"
+   ]
+  },
+  {
+   "id": "cinta-pelo-blanca",
+   "category": "accesorios",
+   "name": "Cinta de pelo blanca",
+   "material": "Punto elástico",
+   "price": 10,
+   "note": "Bordado negro",
+   "sizes": [
+    {
+     "size": "Única",
+     "stock": 44
+    }
+   ],
+   "images": [
+    "images/zaiay_4642.jpg",
+    "images/zaiay_4635.jpg",
+    "images/zaiay_4714.jpg",
+    "images/zaiay_4772.jpg"
+   ]
+  },
+  {
+   "id": "cinta-pelo-negra",
+   "category": "accesorios",
+   "name": "Cinta de pelo negra",
+   "material": "Punto elástico",
+   "price": 10,
+   "note": "Bordado blanco",
+   "sizes": [
+    {
+     "size": "Única",
+     "stock": 45
+    }
+   ],
+   "images": [
+    "images/zaiay_4643.jpg",
+    "images/zaiay_4654.jpg",
+    "images/zaiay_4658.jpg"
+   ]
+  },
+  {
+   "id": "calcetines",
+   "category": "accesorios",
+   "name": "Calcetines blancos, logo negro",
+   "material": "Algodón",
+   "price": 10,
+   "note": "Talla única 37/40",
+   "sizes": [
+    {
+     "size": "Única",
+     "stock": 38
+    }
+   ],
+   "images": [
+    "images/f_calcetines.jpg"
+   ]
+  },
+  {
+   "id": "bolsa-deportiva",
+   "category": "accesorios",
+   "name": "Bolsa deportiva negra",
+   "material": "Poliéster",
+   "price": 12,
+   "note": "",
+   "sizes": [
+    {
+     "size": "Única",
+     "stock": 100
+    }
+   ],
+   "images": [
+    "images/zaiay_4807.jpg",
+    "images/zaiay_4804.jpg",
+    "images/zaiay_4803.jpg",
+    "images/zaiay_4857.jpg",
+    "images/zaiay_4855.jpg",
+    "images/f_bolsa_deportiva.jpg"
+   ]
+  }
+ ]
+}

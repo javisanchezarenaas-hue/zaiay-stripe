@@ -1,13 +1,13 @@
 'use strict';
 const http = require('http');
-const db = require('./lib/db');
-const { migrate } = require('./lib/schema');
-const seed = require('./lib/seed');
-const shop = require('./lib/shop');
-const orders = require('./lib/orders');
-const admin = require('./lib/admin');
-const { verifySignature, CFG } = require('./lib/stripe');
-const { httpErr, send, readBody, readJson, corsHeaders, limited } = require('./lib/util');
+const db = require('./db');
+const { migrate } = require('./schema');
+const seed = require('./seed');
+const shop = require('./shop');
+const orders = require('./orders');
+const admin = require('./admin');
+const { verifySignature, CFG } = require('./stripe');
+const { httpErr, send, readBody, readJson, corsHeaders, limited } = require('./util');
 
 async function webhook(req, res, cors) {
   const raw = await readBody(req, 1024 * 1024);
