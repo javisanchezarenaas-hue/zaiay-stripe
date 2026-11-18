@@ -1,0 +1,9 @@
+{
+  "name": "zaiay-stripe",
+  "version": "2.0.0",
+  "description": "Backend ZAIAY: Stripe Checkout, PostgreSQL, stock, pedidos y panel de administración",
+  "main": "server.js",
+  "scripts": { "start": "node server.js", "dev": "DB_DRIVER=sqlite node server.js" },
+  "engines": { "node": ">=20" },
+  "dependencies": { "pg": "^8.13.0" }
+}
