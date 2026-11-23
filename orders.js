@@ -27,7 +27,7 @@ async function hydrate(row) {
     customer: { name: row.customer_name, email: row.customer_email, phone: row.customer_phone, address: row.shipping_address },
     items: items.map(i => ({ productId: i.product_id, name: i.product_name, size: i.size, quantity: num(i.quantity), unitPrice: eur(i.unit_price_cents), total: eur(i.total_cents) })),
     subtotal: eur(row.subtotal_cents), discount: eur(row.discount_cents), shipping: eur(row.shipping_cents), total: eur(row.total_cents),
-    discountCode: row.discount_code, note: row.note, restocked: !!num(row.restocked),
+    discountCode: row.discount_code, note: row.note, restocked: !!num(row.restocked), refunded: eur(row.refunded_cents),
   };
 }
 const orderBySession = async sid => hydrate((await db.query(`SELECT * FROM orders WHERE stripe_session_id = $1`, [sid])).rows[0]);
@@ -110,9 +110,13 @@ async function restockOrder(orderId) {
   });
 }
 
-async function markRefunded(paymentIntent) {
-  if (!paymentIntent) return;
-  await db.query(`UPDATE orders SET status = 'reembolsado', updated_at = $1 WHERE payment_intent = $2 AND status NOT IN ('reembolsado','sin_stock')`, [iso(), paymentIntent]);
+/** charge.refunded: guarda lo devuelto; solo marca «reembolsado» si se ha devuelto todo. */
+async function markRefunded(charge) {
+  const pi = charge && typeof charge.payment_intent === 'string' ? charge.payment_intent : '';
+  if (!pi) return;
+  const refunded = num(charge.amount_refunded), full = charge.refunded === true || (num(charge.amount) > 0 && refunded >= num(charge.amount));
+  await db.query(`UPDATE orders SET refunded_cents = CASE WHEN $1 > refunded_cents THEN $1 ELSE refunded_cents END, updated_at = $2 WHERE payment_intent = $3`, [refunded, iso(), pi]);
+  if (full) await db.query(`UPDATE orders SET status = 'reembolsado', updated_at = $1 WHERE payment_intent = $2 AND status NOT IN ('reembolsado','sin_stock')`, [iso(), pi]);
 }
 
 module.exports = { processPaidSession, restockOrder, markRefunded, orderBySession, orderById, parseItems, hydrate, NOT_SALES, NOT_SALES_SQL, STATUSES };

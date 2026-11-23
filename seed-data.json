@@ -37,7 +37,7 @@
    "sizes": [
     {
      "size": "S",
-     "stock": 5
+     "stock": 3
     },
     {
      "size": "M",
@@ -68,7 +68,7 @@
    "sizes": [
     {
      "size": "S",
-     "stock": 5
+     "stock": 4
     },
     {
      "size": "M",
@@ -99,7 +99,7 @@
    "sizes": [
     {
      "size": "S",
-     "stock": 5
+     "stock": 3
     },
     {
      "size": "M",
@@ -129,7 +129,7 @@
    "sizes": [
     {
      "size": "S",
-     "stock": 5
+     "stock": 3
     },
     {
      "size": "M",
@@ -159,11 +159,11 @@
    "sizes": [
     {
      "size": "S",
-     "stock": 5
+     "stock": 4
     },
     {
      "size": "M",
-     "stock": 3
+     "stock": 2
     },
     {
      "size": "L",
@@ -189,7 +189,7 @@
    "sizes": [
     {
      "size": "S",
-     "stock": 5
+     "stock": 4
     },
     {
      "size": "M",
@@ -218,7 +218,7 @@
    "sizes": [
     {
      "size": "S",
-     "stock": 4
+     "stock": 3
     },
     {
      "size": "M",
@@ -249,7 +249,7 @@
    "sizes": [
     {
      "size": "S",
-     "stock": 5
+     "stock": 4
     },
     {
      "size": "M",
@@ -278,7 +278,7 @@
    "sizes": [
     {
      "size": "S",
-     "stock": 5
+     "stock": 4
     },
     {
      "size": "M",
@@ -308,7 +308,7 @@
    "sizes": [
     {
      "size": "S",
-     "stock": 5
+     "stock": 4
     },
     {
      "size": "M",
@@ -338,11 +338,11 @@
    "sizes": [
     {
      "size": "S",
-     "stock": 5
+     "stock": 4
     },
     {
      "size": "M",
-     "stock": 3
+     "stock": 2
     },
     {
      "size": "L",
@@ -367,7 +367,7 @@
    "sizes": [
     {
      "size": "S",
-     "stock": 5
+     "stock": 4
     },
     {
      "size": "M",
@@ -397,7 +397,7 @@
    "sizes": [
     {
      "size": "S",
-     "stock": 5
+     "stock": 4
     },
     {
      "size": "M",
@@ -427,7 +427,7 @@
    "sizes": [
     {
      "size": "S",
-     "stock": 5
+     "stock": 4
     },
     {
      "size": "M",
@@ -457,7 +457,7 @@
    "sizes": [
     {
      "size": "S",
-     "stock": 5
+     "stock": 4
     },
     {
      "size": "M",
@@ -488,7 +488,7 @@
    "sizes": [
     {
      "size": "S",
-     "stock": 5
+     "stock": 4
     },
     {
      "size": "M",
@@ -519,11 +519,11 @@
    "sizes": [
     {
      "size": "S",
-     "stock": 5
+     "stock": 4
     },
     {
      "size": "M",
-     "stock": 3
+     "stock": 2
     },
     {
      "size": "L",
@@ -549,7 +549,7 @@
    "sizes": [
     {
      "size": "S",
-     "stock": 5
+     "stock": 4
     },
     {
      "size": "M",
@@ -577,7 +577,7 @@
    "sizes": [
     {
      "size": "Única",
-     "stock": 43
+     "stock": 41
     }
    ],
    "images": [
@@ -619,7 +619,7 @@
    "sizes": [
     {
      "size": "Única",
-     "stock": 45
+     "stock": 43
     }
    ],
    "images": [
@@ -638,7 +638,7 @@
    "sizes": [
     {
      "size": "Única",
-     "stock": 38
+     "stock": 37
     }
    ],
    "images": [
@@ -655,7 +655,7 @@
    "sizes": [
     {
      "size": "Única",
-     "stock": 100
+     "stock": 95
     }
    ],
    "images": [

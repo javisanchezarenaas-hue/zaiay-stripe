@@ -1,0 +1,107 @@
+{
+ "bolsa-deportiva": {
+  "Única": 95
+ },
+ "toalla-azul": {
+  "Única": 41
+ },
+ "cinta-pelo-blanca": {
+  "Única": 44
+ },
+ "cinta-pelo-negra": {
+  "Única": 43
+ },
+ "calcetines": {
+  "Única": 37
+ },
+ "sudadera-rosa": {
+  "S": 4,
+  "M": 3,
+  "L": 2
+ },
+ "sudadera-gris": {
+  "S": 4,
+  "M": 2,
+  "L": 2
+ },
+ "pantalon-gris-blanco": {
+  "S": 4,
+  "M": 2,
+  "L": 2
+ },
+ "pantalon-rosa-blanco": {
+  "S": 4,
+  "M": 3,
+  "L": 2
+ },
+ "top-gris-blanco": {
+  "S": 4,
+  "M": 2,
+  "L": 2
+ },
+ "top-rosa-blanco": {
+  "S": 4,
+  "M": 3,
+  "L": 2
+ },
+ "mono-negro-tirantes": {
+  "S": 3,
+  "M": 3,
+  "L": 2
+ },
+ "mono-morado-tirantes": {
+  "S": 4,
+  "M": 0,
+  "L": 0
+ },
+ "mono-manga-larga-azul": {
+  "S": 3,
+  "M": 3,
+  "L": 2
+ },
+ "mono-manga-larga-marron": {
+  "S": 3,
+  "M": 3,
+  "L": 2
+ },
+ "top-rosa": {
+  "S": 3,
+  "M": 3,
+  "L": 2
+ },
+ "top-beige": {
+  "S": 4,
+  "M": 2,
+  "L": 2
+ },
+ "camiseta-rosa": {
+  "S": 4,
+  "M": 3,
+  "L": 2
+ },
+ "camiseta-beige": {
+  "S": 4,
+  "M": 3,
+  "L": 1
+ },
+ "mallas-rosa": {
+  "S": 4,
+  "M": 3,
+  "L": 2
+ },
+ "mallas-beige": {
+  "S": 4,
+  "M": 2,
+  "L": 1
+ },
+ "chaqueta-rosa": {
+  "S": 4,
+  "M": 3,
+  "L": 2
+ },
+ "chaqueta-beige": {
+  "S": 4,
+  "M": 3,
+  "L": 2
+ }
+}

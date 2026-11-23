@@ -6,6 +6,7 @@ const seed = require('./seed');
 const shop = require('./shop');
 const orders = require('./orders');
 const admin = require('./admin');
+const returns = require('./returns');
 const { verifySignature, CFG } = require('./stripe');
 const { httpErr, send, readBody, readJson, corsHeaders, limited } = require('./util');
 
@@ -17,7 +18,7 @@ async function webhook(req, res, cors) {
   let ev; try { ev = JSON.parse(raw.toString('utf8')); } catch (e) { return send(res, 400, { error: 'JSON no válido' }, cors); }
   const o = ev.data && ev.data.object || {};
   if (ev.type === 'checkout.session.completed' || ev.type === 'checkout.session.async_payment_succeeded') await orders.processPaidSession(o.id, 'webhook');
-  else if (ev.type === 'charge.refunded') await orders.markRefunded(typeof o.payment_intent === 'string' ? o.payment_intent : '');
+  else if (ev.type === 'charge.refunded') await orders.markRefunded(o);
   return send(res, 200, { received: true }, cors);
 }
 
@@ -28,6 +29,8 @@ async function route(req, res) {
   if (m === 'POST' && (p === '/api/stripe-webhook' || p === '/webhook')) return webhook(req, res, cors);
   if (m === 'GET' && p === '/api/config') return send(res, 200, await shop.publicConfig(), cors);
   if (m === 'GET' && (p === '/api/products' || p === '/api/catalog')) return send(res, 200, await shop.catalog(req), cors);
+  if (m === 'POST' && p === '/api/returns/lookup') { if (limited(req, 'retlook', 20, 600000)) throw httpErr(429, 'Demasiados intentos. Espera unos minutos.'); return send(res, 200, await returns.lookup(await readJson(req)), cors); }
+  if (m === 'POST' && p === '/api/returns') { if (limited(req, 'retnew', 6, 600000)) throw httpErr(429, 'Demasiadas solicitudes. Espera unos minutos.'); return send(res, 201, await returns.create(await readJson(req)), cors); }
   if (m === 'POST' && p === '/api/stock-alert') { if (limited(req, 'alert', 10)) throw httpErr(429, 'Demasiadas peticiones, espera un momento'); return send(res, 200, await shop.stockAlert(await readJson(req)), cors); }
   if (m === 'POST' && p === '/api/validate-code') { if (limited(req, 'code', 30)) throw httpErr(429, 'Demasiados intentos'); return send(res, 200, await shop.validateCode((await readJson(req)).code), cors); }
   if (m === 'POST' && (p === '/api/checkout' || p === '/create-checkout-session')) { if (limited(req, 'checkout', 20)) throw httpErr(429, 'Demasiadas peticiones, espera un momento'); return send(res, 200, await shop.checkout(req, await readJson(req)), cors); }
@@ -38,12 +41,16 @@ async function route(req, res) {
   if (m === 'POST' && p === '/api/admin/login') { if (limited(req, 'login', 10, 600000)) throw httpErr(429, 'Demasiados intentos. Espera unos minutos.'); return send(res, 200, admin.login((await readJson(req)).password), cors); }
   if (p.startsWith('/api/admin/')) {
     admin.requireAdmin(req); const q = Object.fromEntries(url.searchParams);
+    if (m === 'GET' && p === '/api/admin/returns') return send(res, 200, await returns.list(q), cors);
+    if (m === 'PUT' && p === '/api/admin/returns-settings') return send(res, 200, await returns.saveSettings(await readJson(req)), cors);
+    if (m === 'PATCH' && (g = /^\/api\/admin\/returns\/(RET-[A-F0-9]+)$/.exec(p))) return send(res, 200, await returns.update(g[1], await readJson(req), admin.refundOrder), cors);
     if (m === 'GET' && p === '/api/admin/stock-alerts') return send(res, 200, { alerts: await admin.listAlerts() }, cors);
     if (m === 'PATCH' && p === '/api/admin/stock-alerts') return send(res, 200, await admin.updateAlerts(await readJson(req)), cors);
     if (m === 'GET' && p === '/api/admin/settings') return send(res, 200, await shop.publicConfig(), cors);
     if (m === 'PUT' && p === '/api/admin/settings') return send(res, 200, await shop.saveShippingSettings(await readJson(req)), cors);
     if (m === 'GET' && p === '/api/admin/summary') return send(res, 200, await admin.summary(req), cors);
     if (m === 'GET' && p === '/api/admin/orders') return send(res, 200, await admin.listOrders(q), cors);
+    if (m === 'POST' && (g = /^\/api\/admin\/orders\/([\w-]+)\/refund$/.exec(p))) return send(res, 200, await admin.refundOrder(g[1], await readJson(req)), cors);
     if (m === 'PATCH' && (g = /^\/api\/admin\/orders\/([\w-]+)$/.exec(p))) return send(res, 200, await admin.updateOrder(g[1], await readJson(req)), cors);
     if (m === 'GET' && p === '/api/admin/customers') return send(res, 200, { customers: await admin.listCustomers() }, cors);
     if (m === 'GET' && p === '/api/admin/products') return send(res, 200, await shop.catalog(req, { includeInactive: true }), cors);
@@ -69,7 +76,7 @@ const server = http.createServer((req, res) => {
 server.headersTimeout = 20000; server.requestTimeout = 60000;
 
 (async () => {
-  await db.init(); await migrate(); await seed.run(); await seed.syncImages(); await seed.ensureSizes();
+  await db.init(); await migrate(); await seed.run(); await seed.syncImages(); await seed.ensureSizes(); await seed.applyInventory();
   const port = process.env.PORT || 3000;
   server.listen(port, '0.0.0.0', () => console.log(`ZAIAY API escuchando en :${port} (db: ${db.driver()})`));
 })().catch(e => { console.error('Arranque fallido:', e.message); process.exit(1); });

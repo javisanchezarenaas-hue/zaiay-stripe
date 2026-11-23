@@ -3,6 +3,7 @@ const crypto = require('crypto');
 const db = require('./db');
 const orders = require('./orders');
 const shop = require('./shop');
+const { stripe } = require('./stripe');
 const { buildXlsx } = require('./xlsx');
 const { httpErr, iso, uid, num, eur, cents, slugify, readBody, send, corsHeaders, periods, madridYMD, fmtDateEs } = require('./util');
 const { NOT_SALES_SQL, STATUSES } = orders;
@@ -27,7 +28,7 @@ function requireAdmin(req) {
 }
 
 async function agg(from, to) {
-  const r = (await db.query(`SELECT COUNT(*) AS n, COALESCE(SUM(total_cents),0) AS t FROM orders WHERE status NOT IN ${NOT_SALES_SQL}` + (from ? ' AND created_at >= $1 AND created_at < $2' : ''), from ? [from, to] : [])).rows[0];
+  const r = (await db.query(`SELECT COUNT(*) AS n, COALESCE(SUM(total_cents - refunded_cents),0) AS t FROM orders WHERE status NOT IN ${NOT_SALES_SQL}` + (from ? ' AND created_at >= $1 AND created_at < $2' : ''), from ? [from, to] : [])).rows[0];
   return { count: num(r.n), total: eur(r.t) };
 }
 async function top(from, to) {
@@ -44,6 +45,7 @@ async function summary(req) {
   const recentOrders = (await db.query(`SELECT id FROM orders ORDER BY created_at DESC LIMIT 8`)).rows;
   const alerts = await listAlerts();
   return {
+    returnsPending: await require('./returns').pendingCount(),
     alertsPending: alerts.filter(a => !a.notified).length, alertsReady: alerts.filter(a => !a.notified && a.stock > 0).length,
     today: await agg(...P.today), month: await agg(...P.month), all: await agg(),
     customers: num((await db.query(`SELECT COUNT(*) AS n FROM customers`)).rows[0].n),
@@ -183,4 +185,21 @@ async function updateAlerts(b) {
   }
   return { ok: true, alerts: await listAlerts() };
 }
-module.exports = { listAlerts, updateAlerts, login, requireAdmin, summary, listOrders, updateOrder, listCustomers, createProduct, updateProduct, deleteProduct, setStock, createCategory, updateCategory, deleteCategory, uploadImage, exportOrders };
+/** Reembolso desde /admin: total o parcial (importe en euros). Opcionalmente devuelve el stock. */
+async function refundOrder(id, b) {
+  const row = (await db.query(`SELECT id, payment_intent, total_cents, refunded_cents, status, note FROM orders WHERE id = $1`, [id])).rows[0];
+  if (!row) throw httpErr(404, 'Pedido no encontrado');
+  if (!row.payment_intent) throw httpErr(400, 'Este pedido no tiene pago de Stripe asociado');
+  const left = num(row.total_cents) - num(row.refunded_cents);
+  if (left <= 0) throw httpErr(409, 'Este pedido ya está reembolsado del todo');
+  const amount = b.amount === undefined || b.amount === '' || b.amount === null ? left : cents(b.amount);
+  if (!(amount > 0) || amount > left) throw httpErr(400, `Importe no válido: puedes reembolsar como máximo ${(left / 100).toFixed(2).replace('.', ',')} €`);
+  try { await stripe('POST', '/v1/refunds', { payment_intent: row.payment_intent, amount, reason: 'requested_by_customer', metadata: { order_id: id } }); }
+  catch (e) { throw httpErr(502, 'Stripe no ha podido hacer el reembolso: ' + e.message); }
+  const total = num(row.refunded_cents) + amount, full = total >= num(row.total_cents), now = iso();
+  const line = `${new Date().toLocaleDateString('es-ES', { timeZone: 'Europe/Madrid' })}: reembolso ${full && amount === left && num(row.refunded_cents) === 0 ? 'total' : 'parcial'} de ${(amount / 100).toFixed(2).replace('.', ',')} € desde el panel.`;
+  await db.query(`UPDATE orders SET refunded_cents = $1, status = CASE WHEN $2 = 1 THEN 'reembolsado' ELSE status END, note = $3, updated_at = $4 WHERE id = $5`, [total, full ? 1 : 0, (row.note ? row.note + '\n' : '') + line, now, id]);
+  if (b.restock) await orders.restockOrder(id);
+  return orders.orderById(id);
+}
+module.exports = { refundOrder, listAlerts, updateAlerts, login, requireAdmin, summary, listOrders, updateOrder, listCustomers, createProduct, updateProduct, deleteProduct, setStock, createCategory, updateCategory, deleteCategory, uploadImage, exportOrders };

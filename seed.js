@@ -2,6 +2,7 @@
 const db = require('./db');
 const { iso, uid, cents } = require('./util');
 const SEED = require('./seed-data.json');
+const INV_KEY = 'inv_2026_11_23';
 /** Carga catálogo e inventario inicial SOLO la primera vez. Después nunca pisa lo que edites en el panel. */
 async function run() {
   if ((await db.query(`SELECT value FROM meta WHERE key = $1`, ['seeded'])).rows.length) return false;
@@ -20,6 +21,7 @@ async function run() {
       for (let k = 0; k < p.images.length; k++) await q(`INSERT INTO product_images (id, product_id, url, position) VALUES ($1,$2,$3,$4)`, [uid(), p.id, p.images[k], k]);
     }
     await q(`INSERT INTO meta (key, value) VALUES ($1,$2)`, ['seeded', now]);
+    await q(`INSERT INTO meta (key, value) VALUES ($1,$2)`, [INV_KEY, now]);
   });
   console.log(`[seed] ${SEED.products.length} productos cargados con su inventario inicial`);
   return true;
@@ -60,4 +62,24 @@ async function ensureSizes() {
   });
   return true;
 }
-module.exports = { run, syncImages, ensureSizes };
+/** Recuento de inventario del 23-11-2026: fija el stock de cada talla una sola vez (no vuelve a aplicarse en siguientes arranques). */
+async function applyInventory() {
+  if ((await db.query(`SELECT value FROM meta WHERE key = $1`, [INV_KEY])).rows.length) return false;
+  const INV = require('./inventario-2026-11-23.json'), now = iso();
+  await db.tx(async q => {
+    for (const [pid, sizes] of Object.entries(INV)) {
+      if (!(await q(`SELECT 1 FROM products WHERE id = $1`, [pid])).rows.length) continue;
+      for (const [size, stock] of Object.entries(sizes)) {
+        const cur = (await q(`SELECT stock FROM product_sizes WHERE product_id = $1 AND size = $2`, [pid, size])).rows[0];
+        if (!cur) await q(`INSERT INTO product_sizes (product_id, size, stock, position) VALUES ($1,$2,$3,$4)`, [pid, size, stock, ['S', 'M', 'L'].indexOf(size)]);
+        else await q(`UPDATE product_sizes SET stock = $1 WHERE product_id = $2 AND size = $3`, [stock, pid, size]);
+        const before = cur ? Number(cur.stock) : 0;
+        if (stock !== before) await q(`INSERT INTO stock_log (id,product_id,size,delta,stock_after,reason,ref,created_at) VALUES ($1,$2,$3,$4,$5,'recuento inventario 23-11-2026','',$6)`, [uid(), pid, size, stock - before, stock, now]);
+      }
+    }
+    await q(`INSERT INTO meta (key, value) VALUES ($1,$2)`, [INV_KEY, now]);
+  });
+  console.log('[seed] recuento de inventario 23-11-2026 aplicado');
+  return true;
+}
+module.exports = { run, syncImages, ensureSizes, applyInventory };
