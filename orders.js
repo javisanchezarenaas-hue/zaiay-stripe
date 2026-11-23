@@ -27,7 +27,7 @@ async function hydrate(row) {
     customer: { name: row.customer_name, email: row.customer_email, phone: row.customer_phone, address: row.shipping_address },
     items: items.map(i => ({ productId: i.product_id, name: i.product_name, size: i.size, quantity: num(i.quantity), unitPrice: eur(i.unit_price_cents), total: eur(i.total_cents) })),
     subtotal: eur(row.subtotal_cents), discount: eur(row.discount_cents), shipping: eur(row.shipping_cents), total: eur(row.total_cents),
-    discountCode: row.discount_code, note: row.note, restocked: !!num(row.restocked), refunded: eur(row.refunded_cents),
+    discountCode: row.discount_code, note: row.note, restocked: !!num(row.restocked), refunded: eur(row.refunded_cents), ambassador: row.ambassador_code || '', deliveredAt: row.delivered_at || null,
   };
 }
 const orderBySession = async sid => hydrate((await db.query(`SELECT * FROM orders WHERE stripe_session_id = $1`, [sid])).rows[0]);
@@ -45,9 +45,9 @@ async function persist(c, withStock) {
         [uid(), c.email, c.name, c.phone, c.address, now]);
       customerId = r.rows[0].id;
     }
-    await q(`INSERT INTO orders (id,stripe_session_id,payment_intent,customer_id,customer_email,customer_name,customer_phone,shipping_address,status,subtotal_cents,discount_cents,shipping_cents,total_cents,discount_code,note,restocked,created_at,updated_at)
-      VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$17)`,
-      [c.id, c.sessionId, c.pi, customerId, c.email, c.name, c.phone, c.address, withStock ? 'pagado' : 'sin_stock', c.subtotal, c.discount, c.shipping, c.total, c.code, withStock ? '' : 'Sin stock al confirmar el pago.', withStock ? 0 : 1, now]);
+    await q(`INSERT INTO orders (id,stripe_session_id,payment_intent,customer_id,customer_email,customer_name,customer_phone,shipping_address,status,subtotal_cents,discount_cents,shipping_cents,total_cents,discount_code,note,restocked,created_at,updated_at,ambassador_code,ambassador_percent)
+      VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$17,$18,$19)`,
+      [c.id, c.sessionId, c.pi, customerId, c.email, c.name, c.phone, c.address, withStock ? 'pagado' : 'sin_stock', c.subtotal, c.discount, c.shipping, c.total, c.code, withStock ? '' : 'Sin stock al confirmar el pago.', withStock ? 0 : 1, now, c.amb || '', c.ambPct || 0]);
     for (const it of c.items) {
       const pr = await q(`SELECT name FROM products WHERE id = $1`, [it.id]);
       await q(`INSERT INTO order_items (id,order_id,product_id,product_name,size,quantity,unit_price_cents,total_cents) VALUES ($1,$2,$3,$4,$5,$6,$7,$8)`,
@@ -78,6 +78,7 @@ async function processPaidSession(sessionId, source = 'webhook') {
     address: [a.line1, a.line2, [a.postal_code, a.city].filter(Boolean).join(' '), a.state, a.country].filter(Boolean).join(', '),
     subtotal: num(s.amount_subtotal), discount: num(td.amount_discount), shipping: num(td.amount_shipping), total: num(s.amount_total),
     code: (s.metadata && s.metadata.discount_code) || '', items,
+    amb: (s.metadata && s.metadata.ambassador) || '', ambPct: Number(s.metadata && s.metadata.ambassador_percent) || 0,
   };
   try { await persist(c, true); }
   catch (e) {

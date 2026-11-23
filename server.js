@@ -7,6 +7,7 @@ const shop = require('./shop');
 const orders = require('./orders');
 const admin = require('./admin');
 const returns = require('./returns');
+const ambassadors = require('./ambassadors');
 const { verifySignature, CFG } = require('./stripe');
 const { httpErr, send, readBody, readJson, corsHeaders, limited } = require('./util');
 
@@ -41,6 +42,11 @@ async function route(req, res) {
   if (m === 'POST' && p === '/api/admin/login') { if (limited(req, 'login', 10, 600000)) throw httpErr(429, 'Demasiados intentos. Espera unos minutos.'); return send(res, 200, admin.login((await readJson(req)).password), cors); }
   if (p.startsWith('/api/admin/')) {
     admin.requireAdmin(req); const q = Object.fromEntries(url.searchParams);
+    if (m === 'GET' && p === '/api/admin/ambassadors') return send(res, 200, await ambassadors.list(), cors);
+    if (m === 'POST' && p === '/api/admin/ambassadors') return send(res, 201, await ambassadors.create(await readJson(req)), cors);
+    if (m === 'GET' && (g = /^\/api\/admin\/ambassadors\/([\w-]+)$/.exec(p))) return send(res, 200, await ambassadors.detail(g[1]), cors);
+    if (m === 'PUT' && (g = /^\/api\/admin\/ambassadors\/([\w-]+)$/.exec(p))) return send(res, 200, await ambassadors.update(g[1], await readJson(req)), cors);
+    if (m === 'POST' && (g = /^\/api\/admin\/ambassadors\/([\w-]+)\/payout$/.exec(p))) return send(res, 200, await ambassadors.payout(g[1], await readJson(req)), cors);
     if (m === 'GET' && p === '/api/admin/returns') return send(res, 200, await returns.list(q), cors);
     if (m === 'PUT' && p === '/api/admin/returns-settings') return send(res, 200, await returns.saveSettings(await readJson(req)), cors);
     if (m === 'PATCH' && (g = /^\/api\/admin\/returns\/(RET-[A-F0-9]+)$/.exec(p))) return send(res, 200, await returns.update(g[1], await readJson(req), admin.refundOrder), cors);

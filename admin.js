@@ -69,6 +69,7 @@ async function listOrders(query) {
 }
 async function updateOrder(id, b) {
   const o = await orders.orderById(id); if (!o) throw httpErr(404, 'Pedido no encontrado');
+  if (b.status === 'entregado') await db.query(`UPDATE orders SET delivered_at = $1 WHERE id = $2 AND delivered_at IS NULL`, [iso(), id]);
   if (b.status !== undefined) { if (!STATUSES.includes(b.status)) throw httpErr(400, 'Estado no válido'); await db.query(`UPDATE orders SET status = $1, updated_at = $2 WHERE id = $3`, [b.status, iso(), id]); }
   if (b.note !== undefined) await db.query(`UPDATE orders SET note = $1, updated_at = $2 WHERE id = $3`, [String(b.note).slice(0, 1000), iso(), id]);
   if (b.restock) await orders.restockOrder(id);
@@ -167,8 +168,8 @@ async function uploadImage(req) {
 async function exportOrders(req, res, query) {
   const all = (await listOrders({ ...query, limit: 100, page: 1 })), list = [];
   for (let p = 1; p <= Math.ceil(all.total / 100); p++) list.push(...(await listOrders({ ...query, limit: 100, page: p })).orders);
-  const rows = list.map(o => [o.id, fmtDateEs(o.date), o.status, o.customer.name, o.customer.email, o.customer.phone, o.customer.address, o.items.map(i => `${i.quantity} x ${i.name} (talla ${i.size})`).join('\n'), o.subtotal, o.discount, o.shipping, o.total, o.discountCode, o.paymentIntent, o.note]);
-  const cols = [['Pedido', 16], ['Fecha', 17], ['Estado', 13], ['Cliente', 22], ['Email', 28], ['Teléfono', 15], ['Dirección', 38], ['Productos', 42], ['Subtotal', 12, 1], ['Descuento', 12, 1], ['Envío', 10, 1], ['Total', 12, 1], ['Código', 12], ['Payment Intent', 30], ['Nota', 30]].map(([title, width, money]) => ({ title, width, money: !!money }));
+  const rows = list.map(o => [o.id, fmtDateEs(o.date), o.status, o.customer.name, o.customer.email, o.customer.phone, o.customer.address, o.items.map(i => `${i.quantity} x ${i.name} (talla ${i.size})`).join('\n'), o.subtotal, o.discount, o.shipping, o.total, o.discountCode, o.paymentIntent, o.note, o.ambassador]);
+  const cols = [['Pedido', 16], ['Fecha', 17], ['Estado', 13], ['Cliente', 22], ['Email', 28], ['Teléfono', 15], ['Dirección', 38], ['Productos', 42], ['Subtotal', 12, 1], ['Descuento', 12, 1], ['Envío', 10, 1], ['Total', 12, 1], ['Código', 12], ['Payment Intent', 30], ['Nota', 30], ['Embajadora', 14]].map(([title, width, money]) => ({ title, width, money: !!money }));
   const buf = buildXlsx({ sheetName: query.code === '1' ? 'Pedidos con código' : 'Pedidos', columns: cols, rows });
   res.writeHead(200, { 'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'Content-Disposition': `attachment; filename="zaiay-${query.code === '1' ? 'pedidos-codigo' : 'pedidos'}.xlsx"`, 'Cache-Control': 'no-store', ...corsHeaders(req) });
   res.end(buf);

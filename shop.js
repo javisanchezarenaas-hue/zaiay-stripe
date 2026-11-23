@@ -90,6 +90,8 @@ async function checkout(req, body) {
     return { quantity: l.qty, price_data: { currency: 'eur', unit_amount: l.unit, product_data: { name: `${l.name} — Talla ${l.size}`, description: `ID ${l.id} · Talla ${l.size} · ${l.qty} x ${(l.unit / 100).toFixed(2)} € = ${(l.qty * l.unit / 100).toFixed(2)} €`, images: image ? [image] : undefined, metadata: { product_id: l.id, product_name: l.name, size: l.size, quantity: l.qty } } } };
   });
   meta.item_count = n;
+  const amb = await require('./ambassadors').forCheckout(body.ref);
+  if (amb) { meta.ambassador = amb.code; meta.ambassador_percent = amb.percent; }
   const params = {
     mode: 'payment', locale: 'es', line_items: lineItems,
     success_url: `${c.site}/success.html?session_id={CHECKOUT_SESSION_ID}`, cancel_url: `${c.site}/cancel.html`,
